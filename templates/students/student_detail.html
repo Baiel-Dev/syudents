@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block title %}Детали студента{% endblock %}
+
+{% block content %}
+    <div class="details-container">
+        <h1>Детали студента: {{ student.name }}</h1>
+        <p>Дней прошло с момента добавления: <strong>{{ total_days }}</strong></p>
+        <p>Присутствовал: <strong>{{ present_count }}</strong> раз</p>
+        <p>Отсутствовал: <strong>{{ absent_count }}</strong> раз</p>
+        <p>Отпросился: <strong>{{ excused_count }}</strong> раз</p>
+        <p>Общая оценка: <strong>{{ total_grades }}</strong></p>
+
+        <div class="navigation">
+            <a class="button" href="{% url 'students_list' %}">Назад к списку</a>
+            <a class="button" href="{% url 'attendance_view' %}">Перейти к отметке присутствия</a>
+        </div>
+    </div>
+{% endblock %}
+
+<style>
+    .details-container {
+        max-width: 800px;
+        margin: 40px auto;
+        padding: 30px;
+        background-color: #282828; /* Фон контейнера */
+        border-radius: 10px;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
+        color: #fff; /* Цвет текста */
+    }
+
+    h1 {
+        font-size: 2rem;
+        margin-bottom: 20px;
+        color: #61dafb; /* Цвет заголовка */
+        text-align: center;
+    }
+
+    p {
+        font-size: 1.2rem;
+        margin: 10px 0;
+    }
+
+    strong {
+        color: #61dafb; /* Цвет выделенного текста */
+    }
+
+    .navigation {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 30px;
+    }
+
+    .button {
+        background-color: #61dafb; /* Цвет кнопок */
+        color: #fff; /* Цвет текста на кнопках */
+        padding: 10px 20px;
+        border-radius: 5px;
+        text-decoration: none;
+        transition: background-color 0.3s ease;
+        flex: 1; /* Равномерное распределение кнопок */
+        text-align: center; /* Центрирование текста */
+        margin: 0 10px; /* Отступ между кнопками */
+    }
+
+    .button:hover {
+        background-color: #4db8e3; /* Цвет кнопки при наведении */
+    }
+</style>

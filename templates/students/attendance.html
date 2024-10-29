@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+
+{% block title %}Отметка присутствия{% endblock %}
+
+{% block content %}
+    <style>
+        /* Стили для карточек студентов */
+        .attendance-container {
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 30px;
+            background-color: #1c1c1c;
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        h2, h3 {
+            text-align: center;
+            color: #61dafb;
+            margin-bottom: 20px;
+            text-shadow: 0 0 5px rgba(97, 218, 251, 0.8);
+        }
+
+        .students-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .student-card {
+            background-color: #282828;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 6px 25px rgba(0, 123, 255, 0.5);
+            text-align: center;
+            transition: transform 0.4s, box-shadow 0.4s;
+        }
+
+        .student-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 40px rgba(0, 123, 255, 0.8);
+        }
+
+        .student-name {
+            font-size: 22px;
+            font-weight: bold;
+            color: #61dafb;
+            margin-bottom: 15px;
+            text-shadow: 0 0 5px rgba(97, 218, 251, 0.7);
+        }
+
+        select, input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #444;
+            border-radius: 8px;
+            background-color: #1c1c1c;
+            color: #fff;
+            margin-bottom: 15px;
+            transition: border-color 0.3s ease;
+        }
+
+        select:focus, input[type="number"]:focus {
+            border-color: #61dafb;
+        }
+
+        button[type="submit"] {
+            display: block;
+            width: 50%;
+            margin: 30px auto;
+            background-color: #61dafb;
+            color: #1c1c1c;
+            padding: 15px;
+            font-size: 18px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #4fa9e3;
+            transform: translateY(-5px);
+        }
+    </style>
+
+    <div class="attendance-container">
+        <h2>Отметка присутствия студентов</h2>
+        <h3>Сегодня: {{ today }}</h3>
+
+        <form method="POST">
+            {% csrf_token %}
+            <div class="students-list">
+                {% for student in students %}
+                    <div class="student-card">
+                        <div class="student-name">{{ student.name }}</div>
+                        <div>
+                            <label for="attendance_{{ student.id }}">Присутствие:</label>
+                            <select id="attendance_{{ student.id }}" name="attendance_{{ student.id }}">
+                                <option value="present">Был</option>
+                                <option value="absent">Не был</option>
+                                <option value="excused">Отпросился</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="grade_{{ student.id }}">Оценка:</label>
+                            <input type="number" id="grade_{{ student.id }}" name="grade_{{ student.id }}" min="0" max="100" value="0">
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <button type="submit">Сохранить</button>
+        </form>
+    </div>
+{% endblock %}
